@@ -12,7 +12,7 @@ function Drawer(props) {
                     <p>{item.title}</p>
                     <b>{item.price} руб.</b>
                 </div>
-                <img width={32} height={32} src="/img/delete.png" alt="delete" className={styles.delete} onClick={() => props.deleteItem(item)}/>
+                <img width={32} height={32} src="/img/delete.png" alt="delete" className={styles.delete}/>
             </div>
 
     ))

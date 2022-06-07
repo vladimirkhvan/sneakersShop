@@ -12,42 +12,40 @@ function App() {
 
 	const [cartItems, setCartItems] = React.useState([]);
 
-	
-
 	function toggleDrawer(){
 		setIsDrawer(prevIsDrawer => !prevIsDrawer);
 	}
 
-	function addCartItem(item){
+	// function addCartItem(item){
 
-		let isInclude = false;
+	// 	let isInclude = false;
 
-		for(let i = 0; i < cartItems.length; i++){
-			if(cartItems[i].title === item.title){
-				isInclude = true;
-			}
-		}
-		if(!isInclude){
-			setCartItems(prevCartItems => ([
-				...prevCartItems,
-				item
-				]
-			))
-		}
-	}
+	// 	for(let i = 0; i < cartItems.length; i++){
+	// 		if(cartItems[i].title === item.title){
+	// 			isInclude = true;
+	// 		}
+	// 	}
+	// 	if(!isInclude){
+	// 		setCartItems(prevCartItems => ([
+	// 			...prevCartItems,
+	// 			item
+	// 			]
+	// 		))
+	// 	}
+	// }
 
-	function deleteCartItem(item){
+	// function deleteCartItem(item){
 
-		let resultArr = [];
+	// 	let resultArr = [];
 
-		for(let i = 0; i < cartItems.length; i++){
-			if(cartItems[i].title !== item.title){
-				resultArr.push(cartItems[i]);
-			}
-		}
+	// 	for(let i = 0; i < cartItems.length; i++){
+	// 		if(cartItems[i].title !== item.title){
+	// 			resultArr.push(cartItems[i]);
+	// 		}
+	// 	}
 
-		setCartItems(resultArr);
-	}
+	// 	setCartItems(resultArr);
+	// }
 
 	React.useEffect(
 		() => {
@@ -58,19 +56,15 @@ function App() {
 
 	const cards = sneakersData.map(sneakers => (
 		<Card 
-			title = {sneakers.title} 
-			price={sneakers.price} 
-			img={sneakers.img} 
-			addCartItem={addCartItem} 
-			deleteCartItem ={deleteCartItem}
 			cartItems={cartItems}
+			{...sneakers}
 		/>
 	))
 
 	return (
 		<div className="wrapper">
 
-			{isDrawer && <Drawer cartItems={cartItems} hideDrawer={toggleDrawer}  deleteItem ={deleteCartItem}/>}
+			{isDrawer && <Drawer cartItems={cartItems} hideDrawer={toggleDrawer}/>}
 
 			<Header showDrawer = {toggleDrawer}/>
 

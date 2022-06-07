@@ -10,23 +10,23 @@ function Card(props) {
         setIsAdded(prevIsAdded => !prevIsAdded)
     }
 
-    function handlePlus(item){
-        isAdded ? props.deleteCartItem(item) : props.addCartItem(item);
-        toggleAdd();
-    }
+    // function handlePlus(item){
+    //     isAdded ? props.deleteCartItem(item) : props.addCartItem(item);
+    //     toggleAdd();
+    // }
 
-    React.useEffect(()=>{
-        let isRemoved = true;
-        for(let i = 0; i < props.cartItems.length; i++){
+    // React.useEffect(()=>{
+    //     let isRemoved = true;
+    //     for(let i = 0; i < props.cartItems.length; i++){
             
-            if(props.cartItems[i].title === props.title){
-                isRemoved = false;
-            }
-        }
-        if(isRemoved){
-            setIsAdded(false);
-        }
-    },[props])
+    //         if(props.cartItems[i].title === props.title){
+    //             isRemoved = false;
+    //         }
+    //     }
+    //     if(isRemoved){
+    //         setIsAdded(false);
+    //     }
+    // },[props])
 
 
     return (
@@ -48,7 +48,7 @@ function Card(props) {
                     height={32} 
                     src={isAdded ? "/img/added.svg" : "/img/unadded.svg"} 
                     alt="unadded" className={styles.add} 
-                    onClick={() => handlePlus(props) }
+                    onClick={toggleAdd}
                 />
             </div>
 
