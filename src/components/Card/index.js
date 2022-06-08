@@ -5,34 +5,64 @@ export default Card
 
 function Card(props) {
     const [isAdded, setIsAdded] = React.useState(false);
+    const [isFavorite, setIsFavorite] = React.useState(false);
+
+    function toggleFavorite(){
+        setIsFavorite(prevIsFavorite => !prevIsFavorite);
+    }
+
+    function handleFavorite(){
+        isFavorite ? props.removeFavorite() : props.addFavorite();
+        toggleFavorite();
+    }
 
     function toggleAdd(){
         setIsAdded(prevIsAdded => !prevIsAdded)
     }
 
-    // function handlePlus(item){
-    //     isAdded ? props.deleteCartItem(item) : props.addCartItem(item);
-    //     toggleAdd();
-    // }
+    function handlePlus(){
+        isAdded ? props.removeCartItem() : props.addCartItem() ;
+        toggleAdd();
+    }
 
-    // React.useEffect(()=>{
-    //     let isRemoved = true;
-    //     for(let i = 0; i < props.cartItems.length; i++){
+    React.useEffect(()=>{
+        let isRemoved = true;
+        for(let i = 0; i < props.cartItems.length; i++){
             
-    //         if(props.cartItems[i].title === props.title){
-    //             isRemoved = false;
-    //         }
-    //     }
-    //     if(isRemoved){
-    //         setIsAdded(false);
-    //     }
-    // },[props])
+            if(props.cartItems[i].id === props.id){
+                isRemoved = false;
+            }
+        }
+        if(isRemoved){
+            setIsAdded(false);
+        } else {
+            setIsAdded(true);
+        }
+    },[props]) 
 
+    React.useEffect(
+        () => {
+            let unliked = true;
+    
+            for(let i = 0; i < props.favoriteItems.length; i++){
+                if(props.id === props.favoriteItems[i].id){
+                    unliked=false;
+                }
+            }
+    
+            if(unliked){
+                setIsFavorite(false);
+            } else{
+                setIsFavorite(true);
+            }
+            //eslint-disable-next-line react-hooks/exhaustive-deps
+        }, []
+    )
 
     return (
         <div className={styles.card}>
 
-            <img src="/img/unlike.svg" alt="unlike" className={styles.like} />
+            <img src={isFavorite ? "/img/like.png" : "/img/unlike.svg"} alt="unlike" className={styles.like} onClick={handleFavorite}/>
 
             <img width={133} height={112} src={"/img/" + props.img} alt="sneakers" />
 
@@ -48,7 +78,7 @@ function Card(props) {
                     height={32} 
                     src={isAdded ? "/img/added.svg" : "/img/unadded.svg"} 
                     alt="unadded" className={styles.add} 
-                    onClick={toggleAdd}
+                    onClick={handlePlus}
                 />
             </div>
 

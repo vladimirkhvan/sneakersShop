@@ -1,4 +1,5 @@
 import React from "react"
+import axios from "axios"
 
 import Drawer from "./components/Drawer"
 import Header from "./components/Header"
@@ -12,51 +13,85 @@ function App() {
 
 	const [cartItems, setCartItems] = React.useState([]);
 
-	function toggleDrawer(){
+	const [searchValue, setSearchValue] = React.useState("");
+
+	const [favoriteItems, setFavoriteItems] = React.useState([]);
+
+	async function addFavorite(obj) {
+
+		await axios.post("https://629cba363798759975da5f77.mockapi.io/favorite", obj);
+		setFavoriteItems(prevFavoriteItems => prevFavoriteItems.filter(item => item.id !== obj.id))
+		
+	}
+
+	async function removeFavorite(obj) {
+		let deleteID;
+		let favoriteArray;
+		await axios.get("https://629cba363798759975da5f77.mockapi.io/favorite")
+			.then(res => favoriteArray = res.data);
+
+		for (let i = 0; i < favoriteArray.length; i++) {
+			if (favoriteArray[i].id === obj.id) {
+				deleteID = favoriteArray[i].favoriteID;
+			}
+		}
+		setFavoriteItems(prevFavoriteItems => ([...prevFavoriteItems, obj]));
+		axios.delete(`https://629cba363798759975da5f77.mockapi.io/favorite/${deleteID}`);
+	}
+
+	function toggleDrawer() {
 		setIsDrawer(prevIsDrawer => !prevIsDrawer);
 	}
 
-	// function addCartItem(item){
+	function addCartItem(item) {
+		if (!cartItems.find(obj => obj.id === item.id)) {
+			setCartItems(prevCartItems => (
+				[
+					...prevCartItems,
+					item
+				]
+			))
+			axios.post("https://629cba363798759975da5f77.mockapi.io/cart", item);
+		}
+	}
 
-	// 	let isInclude = false;
+	async function removeCartItem(id) {
+		let cartArray;
+		await axios.get(`https://629cba363798759975da5f77.mockapi.io/cart`)
+			.then(res => cartArray = res.data);
+		let deleteID;
 
-	// 	for(let i = 0; i < cartItems.length; i++){
-	// 		if(cartItems[i].title === item.title){
-	// 			isInclude = true;
-	// 		}
-	// 	}
-	// 	if(!isInclude){
-	// 		setCartItems(prevCartItems => ([
-	// 			...prevCartItems,
-	// 			item
-	// 			]
-	// 		))
-	// 	}
-	// }
+		for (let i = 0; i < cartArray.length; i++) {
+			if (cartArray[i].id === id) {
+				deleteID = cartArray[i].deleteID;
+			}
+		}
 
-	// function deleteCartItem(item){
-
-	// 	let resultArr = [];
-
-	// 	for(let i = 0; i < cartItems.length; i++){
-	// 		if(cartItems[i].title !== item.title){
-	// 			resultArr.push(cartItems[i]);
-	// 		}
-	// 	}
-
-	// 	setCartItems(resultArr);
-	// }
+		setCartItems(prevCartItems => prevCartItems.filter(obj => obj.id !== id));
+		await axios.delete(`https://629cba363798759975da5f77.mockapi.io/cart/${deleteID}`);
+	}
 
 	React.useEffect(
 		() => {
-			fetch("https://629cba363798759975da5f77.mockapi.io/items")
-				.then(res => res.json())
-				.then(jsonObj => setSneakersData(jsonObj))
-			}, []);
+			axios.get("https://629cba363798759975da5f77.mockapi.io/items")
+				.then(res => setSneakersData(res.data))
+			axios.get("https://629cba363798759975da5f77.mockapi.io/cart")
+				.then(res => setCartItems(res.data))
+			axios.get("https://629cba363798759975da5f77.mockapi.io/favorite")
+				.then(res => setFavoriteItems(res.data))
+		}, []);
 
-	const cards = sneakersData.map(sneakers => (
-		<Card 
+	const cards = sneakersData.filter(
+		item => item.title.toLowerCase().includes(searchValue.toLowerCase())
+	).map(sneakers => (
+		<Card
+			key={sneakers.id}
 			cartItems={cartItems}
+			favoriteItems={favoriteItems}
+			addCartItem={() => addCartItem(sneakers)}
+			removeCartItem={() => removeCartItem(sneakers.id)}
+			addFavorite={() => addFavorite(sneakers)}
+			removeFavorite={() => removeFavorite(sneakers)}
 			{...sneakers}
 		/>
 	))
@@ -64,9 +99,9 @@ function App() {
 	return (
 		<div className="wrapper">
 
-			{isDrawer && <Drawer cartItems={cartItems} hideDrawer={toggleDrawer}/>}
+			{isDrawer && <Drawer cartItems={cartItems} hideDrawer={toggleDrawer} removeCartItem={removeCartItem} />}
 
-			<Header showDrawer = {toggleDrawer}/>
+			<Header showDrawer={toggleDrawer} />
 
 			<main>
 
@@ -76,14 +111,14 @@ function App() {
 					<span>
 
 						<img src="/img/search.svg" alt="search" />
-						<input type="text" name="search" placeholder="Поиск..."/>
+						<input type="text" name="search" placeholder="Поиск..." value={searchValue} onChange={e => setSearchValue(e.target.value)} />
 
 					</span>
 				</div>
-				
-				
+
+
 				<div className="contentWrapper">
-					
+
 					{cards}
 
 				</div>
