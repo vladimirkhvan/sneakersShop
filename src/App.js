@@ -49,7 +49,7 @@ function App() {
 				deleteID = favoriteArray[i].favoriteID;
 			}
 		}
-		setFavoriteItems(prevFavoriteItems => prevFavoriteItems.filter(obj => obj !== id));
+		setFavoriteItems(prevFavoriteItems => prevFavoriteItems.filter(obj => obj.id !== id));
 		await axios.delete(`https://629cba363798759975da5f77.mockapi.io/favorite/${deleteID}`);
 	}
 
