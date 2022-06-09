@@ -9,6 +9,10 @@
 
 	margin-bottom: 45px;
 
+	a{
+		text-decoration: none;
+	}
+
 	.brand{
 		display: flex;
 		align-items:center;
@@ -20,6 +24,7 @@
 		h3{
 			margin:0;
 			font-size: 20px;
+			color:black;
 		}
 
 		p{

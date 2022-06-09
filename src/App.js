@@ -1,9 +1,13 @@
 import React from "react"
 import axios from "axios"
+import {Routes, Route} from "react-router-dom"
 
 import Drawer from "./components/Drawer"
 import Header from "./components/Header"
 import Card from "./components/Card"
+
+import Home from "./pages/Home"		
+import Favorite from "./pages/Favorite"		
 
 function App() {
 
@@ -17,26 +21,36 @@ function App() {
 
 	const [favoriteItems, setFavoriteItems] = React.useState([]);
 
-	async function addFavorite(obj) {
+	function addFavorite(item) {
 
-		await axios.post("https://629cba363798759975da5f77.mockapi.io/favorite", obj);
-		setFavoriteItems(prevFavoriteItems => prevFavoriteItems.filter(item => item.id !== obj.id))
+		if (!favoriteItems.find(obj => obj.id === item.id)) {
+			setFavoriteItems(prevFavoriteItems => (
+				[
+					...prevFavoriteItems,
+					item
+				]
+			))
+			axios.post("https://629cba363798759975da5f77.mockapi.io/favorite", item);
+		}
 		
 	}
 
-	async function removeFavorite(obj) {
+	async function removeFavorite(id) {
 		let deleteID;
 		let favoriteArray;
+
+		console.log(id);
+		
 		await axios.get("https://629cba363798759975da5f77.mockapi.io/favorite")
-			.then(res => favoriteArray = res.data);
+			.then(res => favoriteArray = res.data);		
 
 		for (let i = 0; i < favoriteArray.length; i++) {
-			if (favoriteArray[i].id === obj.id) {
+			if (favoriteArray[i].id === id) {
 				deleteID = favoriteArray[i].favoriteID;
 			}
 		}
-		setFavoriteItems(prevFavoriteItems => ([...prevFavoriteItems, obj]));
-		axios.delete(`https://629cba363798759975da5f77.mockapi.io/favorite/${deleteID}`);
+		setFavoriteItems(prevFavoriteItems => prevFavoriteItems.filter(obj => obj !== id));
+		await axios.delete(`https://629cba363798759975da5f77.mockapi.io/favorite/${deleteID}`);
 	}
 
 	function toggleDrawer() {
@@ -91,7 +105,22 @@ function App() {
 			addCartItem={() => addCartItem(sneakers)}
 			removeCartItem={() => removeCartItem(sneakers.id)}
 			addFavorite={() => addFavorite(sneakers)}
-			removeFavorite={() => removeFavorite(sneakers)}
+			removeFavorite={() => removeFavorite(sneakers.id)}
+			{...sneakers}
+		/>
+	))
+
+	const favoriteCards = favoriteItems.filter(
+		item => item.title.toLowerCase().includes(searchValue.toLowerCase())
+	).map(sneakers => (
+		<Card
+			key={sneakers.id}
+			cartItems={cartItems}
+			favoriteItems={favoriteItems}
+			addCartItem={() => addCartItem(sneakers)}
+			removeCartItem={() => removeCartItem(sneakers.id)}
+			addFavorite={() => addFavorite(sneakers)}
+			removeFavorite={() => removeFavorite(sneakers.id)}
 			{...sneakers}
 		/>
 	))
@@ -103,27 +132,27 @@ function App() {
 
 			<Header showDrawer={toggleDrawer} />
 
-			<main>
+			<Routes>
+				<Route path="/" 
+					element={
+						<Home
+						cards={cards}
+						searchValue={searchValue}
+						setSearchValue={setSearchValue}/>
+					}>
+				</Route>
+				<Route path="/favorite" 
+					element={
+						<Favorite
+						cards = {favoriteCards}
+						searchValue={searchValue}
+						setSearchValue={setSearchValue}
+						/>
+					}>
+				</Route>
+			</Routes>
 
-				<div className="contentHeader">
-					<h2>Все кроссовки</h2>
-
-					<span>
-
-						<img src="/img/search.svg" alt="search" />
-						<input type="text" name="search" placeholder="Поиск..." value={searchValue} onChange={e => setSearchValue(e.target.value)} />
-
-					</span>
-				</div>
-
-
-				<div className="contentWrapper">
-
-					{cards}
-
-				</div>
-
-			</main>
+			
 		</div>
 	);
 }

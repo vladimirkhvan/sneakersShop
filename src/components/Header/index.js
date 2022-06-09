@@ -1,4 +1,5 @@
 import React from "react"
+import {Link} from "react-router-dom"
 
 import styles from "./Header.module.scss"
 export default Header
@@ -6,13 +7,16 @@ export default Header
 function Header(props) {
     return (
         <header className={styles.header}>
-            <div className={styles.brand}>
-                <img src="/img/logo.png" alt="" />
-                <div>
-                    <h3>REACT SNEAKERS</h3>
-                    <p>Магазин кроссовок.</p>
+            <Link to="/">
+                <div className={styles.brand}>
+                    <img src="/img/logo.png" alt="" />
+                    <div>
+                        <h3>REACT SNEAKERS</h3>
+                        <p>Магазин кроссовок.</p>
+                    </div>
                 </div>
-            </div>
+            </Link>
+            
 
             <div className={styles.items}>
                 <div className={styles.cart} onClick={props.showDrawer}>
@@ -22,7 +26,9 @@ function Header(props) {
                     <p>1205 rub</p>
                 </div>
 
-                <img width={20} height={20} src="/img/favorite.svg" alt="favorite" />
+                <Link to="/favorite">
+                    <img width={20} height={20} src="/img/favorite.svg" alt="favorite" />
+                </Link>
 
                 <img width={20} height={20} src="/img/user.svg" alt="user" />
             </div>

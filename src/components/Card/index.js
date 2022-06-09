@@ -38,7 +38,8 @@ function Card(props) {
         } else {
             setIsAdded(true);
         }
-    },[props]) 
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    },[props.cartItems]) 
 
     React.useEffect(
         () => {
@@ -62,7 +63,12 @@ function Card(props) {
     return (
         <div className={styles.card}>
 
-            <img src={isFavorite ? "/img/like.png" : "/img/unlike.svg"} alt="unlike" className={styles.like} onClick={handleFavorite}/>
+            <img 
+                src={isFavorite ? "/img/like.png" : "/img/unlike.svg"} 
+                alt="unlike" 
+                className={styles.like} 
+                onClick={handleFavorite}
+            />
 
             <img width={133} height={112} src={"/img/" + props.img} alt="sneakers" />
 
