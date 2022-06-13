@@ -5,6 +5,7 @@ import {Routes, Route} from "react-router-dom"
 import Drawer from "./components/Drawer"
 import Header from "./components/Header"
 import Card from "./components/Card"
+import Loader from "./components/Loader"
 
 import Home from "./pages/Home"		
 import Favorite from "./pages/Favorite"		
@@ -20,6 +21,8 @@ function App() {
 	const [searchValue, setSearchValue] = React.useState("");
 
 	const [favoriteItems, setFavoriteItems] = React.useState([]);
+
+	const [isLoading, setIsLoading] = React.useState(true);
 
 	function addFavorite(item) {
 
@@ -87,28 +90,37 @@ function App() {
 
 	React.useEffect(
 		() => {
-			axios.get("https://629cba363798759975da5f77.mockapi.io/items")
-				.then(res => setSneakersData(res.data))
-			axios.get("https://629cba363798759975da5f77.mockapi.io/cart")
-				.then(res => setCartItems(res.data))
-			axios.get("https://629cba363798759975da5f77.mockapi.io/favorite")
-				.then(res => setFavoriteItems(res.data))
+			async function fetchData(){
+				await axios.get("https://629cba363798759975da5f77.mockapi.io/items")
+					.then(res => setSneakersData(res.data));
+				await axios.get("https://629cba363798759975da5f77.mockapi.io/cart")
+					.then(res => setCartItems(res.data));
+				await axios.get("https://629cba363798759975da5f77.mockapi.io/favorite")
+					.then(res => setFavoriteItems(res.data));
+				setIsLoading(false);
+			}
+
+			fetchData();
+			
 		}, []);
 
-	const cards = sneakersData.filter(
-		item => item.title.toLowerCase().includes(searchValue.toLowerCase())
-	).map(sneakers => (
-		<Card
-			key={sneakers.id}
-			cartItems={cartItems}
-			favoriteItems={favoriteItems}
-			addCartItem={() => addCartItem(sneakers)}
-			removeCartItem={() => removeCartItem(sneakers.id)}
-			addFavorite={() => addFavorite(sneakers)}
-			removeFavorite={() => removeFavorite(sneakers.id)}
-			{...sneakers}
-		/>
-	))
+	const cards = 
+		isLoading 
+		? [...Array(8)].map((value, index)=> <Loader key={index}/>)
+		: sneakersData.filter(
+			item => item.title.toLowerCase().includes(searchValue.toLowerCase())
+				).map(sneakers => (
+					<Card
+						key={sneakers.id}
+						cartItems={cartItems}
+						favoriteItems={favoriteItems}
+						addCartItem={() => addCartItem(sneakers)}
+						removeCartItem={() => removeCartItem(sneakers.id)}
+						addFavorite={() => addFavorite(sneakers)}
+						removeFavorite={() => removeFavorite(sneakers.id)}
+						{...sneakers}
+					/>
+				))
 
 	const favoriteCards = favoriteItems.filter(
 		item => item.title.toLowerCase().includes(searchValue.toLowerCase())

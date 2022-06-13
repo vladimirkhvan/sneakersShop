@@ -1,0 +1,25 @@
+.card{
+    width: 210px;
+    height: 260px;
+    position: relative;
+
+    background: #FFFFFF;
+    border: 1px solid #F3F3F3;
+    border-radius: 40px;
+
+    margin-right: 30px;
+    margin-bottom: 40px;
+
+    transition: background 0.15s ease-in-out,
+                border 0.15s ease-in-out,
+                box-shadow 0.15s ease-in-out,
+                transform 0.15s ease-in-out,;
+
+    &:hover{
+        transform: translateY(-10px);
+        background: #FFFFFF;
+        border: 1px solid #F8F8F8;
+        box-shadow: 0px 14px 30px rgba(0, 0, 0, 0.05);
+    }
+
+}
