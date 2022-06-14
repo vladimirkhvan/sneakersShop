@@ -140,7 +140,7 @@ function App() {
 	return (
 		<div className="wrapper">
 
-			{isDrawer && <Drawer cartItems={cartItems} hideDrawer={toggleDrawer} removeCartItem={removeCartItem} />}
+			{isDrawer && <Drawer cartItems={cartItems} setCartItems = {setCartItems} hideDrawer={toggleDrawer} removeCartItem={removeCartItem} />}
 
 			<Header showDrawer={toggleDrawer} />
 

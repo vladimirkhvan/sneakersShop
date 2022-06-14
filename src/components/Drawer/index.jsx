@@ -1,3 +1,6 @@
+import React from "react"
+import axios from "axios";
+
 import styles from "./Drawer.module.scss"
 
 import Info from "../Info"
@@ -5,6 +8,31 @@ import Info from "../Info"
 export default Drawer;
 
 function Drawer(props) {
+
+    const [isComplete, setIsComplete] = React.useState(false);
+    const [orderID, setOrderID] = React.useState(null);
+    const [isLoading, setIsLoading] = React.useState(false);
+    
+    async function createOrder(){
+
+        setIsLoading(true);
+
+        const orderObj = await axios.post("https://629cba363798759975da5f77.mockapi.io/order", {item: props.cartItems});
+
+        setOrderID(orderObj.data.id);
+
+        const {data} = await axios.get("https://629cba363798759975da5f77.mockapi.io/cart");
+
+        for(let i = 0; i < data.length; i++){
+            await axios.delete(`https://629cba363798759975da5f77.mockapi.io/cart/${data[i].deleteID}`);
+            await setTimeout(()=>{}, 200);
+        }   
+        
+
+        props.setCartItems([]);
+        setIsLoading(false);
+        setIsComplete(true);
+    }
 
     const items = props.cartItems.map(item => (
 
@@ -53,7 +81,7 @@ function Drawer(props) {
                                 </li>
                             </ul>
 
-                            <button className="greenButton">
+                            <button className="greenButton" disabled={isLoading} onClick={createOrder}>
                                 Оформить заказ
                                 <img src="/img/arrow.svg" alt="arrow" className="arrow"/>
                             </button>
@@ -63,9 +91,9 @@ function Drawer(props) {
                     :
                     
                     <Info
-                        title="Корзина пустая"
-                        description="Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
-                        img="emptyCart.png"
+                        title= {isComplete ? "Заказ оформлен!" : "Корзина пустая"}
+                        description={isComplete ? `Ваш заказ #${orderID} скоро будет передан курьерской доставке` : "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."}
+                        img= {isComplete ? "orderComplete.png" : "emptyCart.png"}
                         hideDrawer={props.hideDrawer}
                     />
                     
