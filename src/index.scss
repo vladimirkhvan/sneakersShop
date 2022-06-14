@@ -85,3 +85,60 @@ main{
 	
 }
 
+
+
+.greenButton{
+	width:100%;
+	height: 55px;
+	
+	background: #9DD558;
+
+	color:white;
+
+	font-weight: 600;
+	font-size: 16px;
+
+	border: none;
+	border-radius: 18px;
+
+	cursor: pointer;
+
+	position: relative;
+	
+
+	transition: background-color 0.15s ease-in-out;
+
+	&:hover{
+		background-color: lighten($color: #9DD558, $amount: 5%);
+
+		.arrow{
+			transform: translateX(10px);
+		}
+
+		.arrowBack{
+			transform: translateX(-10px) scaleX(-1);
+		}
+	}
+
+	&:active{
+		background-color: darken($color: #9DD558, $amount: 5%);
+	}
+
+	.arrow{
+		position: absolute;
+		right: 40px;
+		top: 21px;
+
+		transition: transform 0.2s ease-in-out;
+		
+	}
+	.arrowBack{
+		position: absolute;
+		left: 40px;
+		top: 21px;
+
+		transition: transform 0.2s ease-in-out;
+		
+		transform: scaleX(-1);
+	}
+}

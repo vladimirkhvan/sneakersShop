@@ -1,5 +1,7 @@
 import styles from "./Drawer.module.scss"
 
+import Info from "../Info"
+
 export default Drawer;
 
 function Drawer(props) {
@@ -51,25 +53,22 @@ function Drawer(props) {
                                 </li>
                             </ul>
 
-                            <button className={styles.greenButton}>
+                            <button className="greenButton">
                                 Оформить заказ
-                                <img src="/img/arrow.svg" alt="arrow" className={styles.arrow} />
+                                <img src="/img/arrow.svg" alt="arrow" className="arrow"/>
                             </button>
                         </div>
                     </>
 
                     :
-
-                    <div className={styles.emptyCart}>
-                        <img width={120} height={120} src="/img/emptyCart.png" alt="cart is empty" />
-                        <h2>Корзина пустая</h2>
-                        <p>Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
-
-                        <button className={styles.greenButton}>
-                            Вернуться назад
-                            <img src="/img/arrow.svg" alt="arrow" className={styles.arrowBack} />
-                        </button>
-                    </div>
+                    
+                    <Info
+                        title="Корзина пустая"
+                        description="Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
+                        img="emptyCart.png"
+                        hideDrawer={props.hideDrawer}
+                    />
+                    
                 }
 
 
