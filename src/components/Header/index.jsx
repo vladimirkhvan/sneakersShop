@@ -5,6 +5,9 @@ import styles from "./Header.module.scss"
 export default Header
 
 function Header(props) {
+
+    const totalPrice = props.cartItems.reduce((sum, cur) => sum + cur.price, 0);
+
     return (
         <header className={styles.header}>
             <Link to="/">
@@ -23,14 +26,17 @@ function Header(props) {
 
                     <img width={20} height={20} src="/img/cart.svg" alt="cart" />
 
-                    <p>1205 rub</p>
+                    <p>{totalPrice} руб.</p>
                 </div>
 
                 <Link to="/favorite">
                     <img width={20} height={20} src="/img/favorite.svg" alt="favorite" />
                 </Link>
 
-                <img width={20} height={20} src="/img/user.svg" alt="user" />
+                <Link to="/orders">
+                    <img width={20} height={20} src="/img/user.svg" alt="user" />
+                </Link>
+                
             </div>
         </header>
     );

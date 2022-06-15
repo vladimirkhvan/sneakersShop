@@ -1,11 +1,26 @@
+import Info from "../components/Info";
+
 export default Favorite
 
-function Favorite({cards, searchValue, setSearchValue}){
+function Favorite({cards = [], searchValue, setSearchValue}){
+
+    let cardElements = cards.length ? cards : 
+    (
+        <div className="emptyPage">
+            <Info
+                title= "Закладок нет :("
+                description={`Вы ничего не добавляли в закладки`}
+                img= "noFavorite.png"
+                height={70}
+            />
+        </div>
+    );
+
     return (
         <main>
 
             <div className="contentHeader">
-                <h2>Все кроссовки</h2>
+                <h2>Мои закладки</h2>
 
                 <span>
 
@@ -15,10 +30,9 @@ function Favorite({cards, searchValue, setSearchValue}){
                 </span>
             </div>
 
-
             <div className="contentWrapper">
 
-                {cards}
+                {cardElements}
 
             </div>
 

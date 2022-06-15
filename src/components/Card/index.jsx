@@ -12,7 +12,7 @@ function Card(props) {
     }
 
     function handleFavorite(){
-        isFavorite ? props.removeFavorite() : props.addFavorite();
+        props.favoriteItems && isFavorite ? props.removeFavorite() : props.addFavorite();
         toggleFavorite();
     }
 
@@ -21,41 +21,46 @@ function Card(props) {
     }
 
     function handlePlus(){
-        isAdded ? props.removeCartItem() : props.addCartItem() ;
+        props.cartItems && isAdded ? props.removeCartItem() : props.addCartItem() ;
         toggleAdd();
     }
 
     React.useEffect(()=>{
-        let isRemoved = true;
-        for(let i = 0; i < props.cartItems.length; i++){
-            
-            if(props.cartItems[i].id === props.id){
-                isRemoved = false;
+        if(props.cartItems){
+            let isRemoved = true;
+            for(let i = 0; i < props.cartItems.length; i++){
+                
+                if(props.cartItems[i].id === props.id){
+                    isRemoved = false;
+                }
             }
-        }
-        if(isRemoved){
-            setIsAdded(false);
-        } else {
-            setIsAdded(true);
+            if(isRemoved){
+                setIsAdded(false);
+            } else {
+                setIsAdded(true);
+            }
         }
         //eslint-disable-next-line react-hooks/exhaustive-deps
     },[props.cartItems]) 
 
     React.useEffect(
         () => {
-            let unliked = true;
+            if(props.favoriteItems){
+                let unliked = true;
     
-            for(let i = 0; i < props.favoriteItems.length; i++){
-                if(props.id === props.favoriteItems[i].id){
-                    unliked=false;
+                for(let i = 0; i < props.favoriteItems.length; i++){
+                    if(props.id === props.favoriteItems[i].id){
+                        unliked=false;
+                    }
+                }
+        
+                if(unliked){
+                    setIsFavorite(false);
+                } else{
+                    setIsFavorite(true);
                 }
             }
-    
-            if(unliked){
-                setIsFavorite(false);
-            } else{
-                setIsFavorite(true);
-            }
+            
             //eslint-disable-next-line react-hooks/exhaustive-deps
         }, []
     )
@@ -63,12 +68,12 @@ function Card(props) {
     return (
         <div className={styles.card}>
 
-            <img 
+            {props.favoriteItems && <img 
                 src={isFavorite ? "/img/like.png" : "/img/unlike.svg"} 
                 alt="unlike" 
                 className={styles.like} 
                 onClick={handleFavorite}
-            />
+            />}
 
             <img width={133} height={112} src={"/img/" + props.img} alt="sneakers" />
 
@@ -79,13 +84,13 @@ function Card(props) {
                     <p>Цена:</p>
                     <b>{props.price} руб.</b>
                 </div>
-                <img 
+                {props.cartItems && <img 
                     width={32} 
                     height={32} 
                     src={isAdded ? "/img/added.svg" : "/img/unadded.svg"} 
                     alt="unadded" className={styles.add} 
                     onClick={handlePlus}
-                />
+                />}
             </div>
 
         </div>

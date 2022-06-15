@@ -2,17 +2,19 @@ import styles from "./Info.module.scss"
 
 export default Info
 
-function Info(props) {
+function Info({title, description, img, hideDrawer, height = 120}) {
     return (
         <div className={styles.info}>
-            <img height={120} src={"/img/" + props.img} alt={props.title} />
-            <h2>{props.title}</h2>
-            <p>{props.description}</p>
+            <img height={height}src={"/img/" + img} alt={title} />
+            <h2>{title}</h2>
+            <p>{description}</p>
 
-            <button className="greenButton" onClick={props.hideDrawer}>
+            { hideDrawer &&
+            <button className="greenButton" onClick={hideDrawer}>
                 Вернуться назад
                 <img src="/img/arrow.svg" alt="arrow" className="arrowBack"/>
             </button>
+            }
         </div>
     )
 }

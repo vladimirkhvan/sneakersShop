@@ -1,5 +1,5 @@
 .overlay{
-	position: absolute;
+	position: fixed;
 	width: 100%;
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.6);
@@ -8,6 +8,11 @@
 
 	z-index: 2;
 
+	visibility: hidden;
+	opacity: 0;
+
+	transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+
 	.drawer{
 		right: 0;
 		position: absolute;
@@ -15,6 +20,10 @@
 		height: 100%;
 		background: #FFFFFF;
 		box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
+		
+		transform: translateX(100%);
+
+		transition: transform 0.2s ease-in-out;
 
 		padding: 30px;
 
@@ -118,5 +127,14 @@
 
 			
 		}
+	}
+}
+
+.visibleOverlay{
+	visibility:visible;
+	opacity: 1;
+
+	.drawer{
+		transform: translateX(0);
 	}
 }

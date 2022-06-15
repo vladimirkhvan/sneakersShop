@@ -13,6 +13,8 @@ function Drawer(props) {
     const [orderID, setOrderID] = React.useState(null);
     const [isLoading, setIsLoading] = React.useState(false);
     
+    const totalPrice = props.cartItems.reduce((sum, cur) => sum + cur.price, 0);
+    
     async function createOrder(){
 
         setIsLoading(true);
@@ -48,10 +50,10 @@ function Drawer(props) {
     ))
 
     return (
-        <div className={styles.overlay}>
+        <div className={`${styles.overlay} ${props.isDrawer && styles.visibleOverlay}`}>
             <div className={styles.drawer}>
                 <h2>
-                    Cart
+                    Корзина
                     <img width={32} height={32} src="/img/delete.png" alt="delete" className={styles.delete} onClick={props.hideDrawer} />
                 </h2>
 
@@ -70,14 +72,14 @@ function Drawer(props) {
                         <div className={styles.cartDetails}>
                             <ul>
                                 <li>
-                                    <span>Total:</span>
+                                    <span>Итого:</span>
                                     <div className={styles.filler}></div>
-                                    <b>21 498 rub</b>
+                                    <b>{totalPrice} руб.</b>
                                 </li>
                                 <li>
-                                    <span>Tax 5%:</span>
+                                    <span>Налог 5%:</span>
                                     <div className={styles.filler}></div>
-                                    <b>1074 rub</b>
+                                    <b>{Math.round(totalPrice*0.05)} руб.</b>
                                 </li>
                             </ul>
 
