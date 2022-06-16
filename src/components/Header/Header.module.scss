@@ -38,22 +38,44 @@
 	.items{
 		display: flex;
 		align-items: center;
-		
 
 		.cart{
 			display: flex;
 			align-items: center;
 
 			cursor: pointer;
-
+			
 			img{
 				margin-right:10px;
 			}
 		}
 
 		img{
-			margin-left:30px;
 			cursor: pointer;
 		}
 	}
+}
+
+@media screen and (min-width: 601px) {
+	.header{
+		img{
+			margin-left:30px;
+		}
+	}
+	
+}
+
+@media screen and (max-width: 600px) {
+	.header{
+		flex-direction: column;
+		padding: 30px 40px;
+		padding-right: 20px;
+	}
+	.items{
+		margin-top: 20px;
+		justify-content: space-around;
+		width: 100%;
+		flex:1;
+	}
+
 }

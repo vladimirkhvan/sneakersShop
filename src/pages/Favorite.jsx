@@ -4,7 +4,13 @@ export default Favorite
 
 function Favorite({cards = [], searchValue, setSearchValue}){
 
-    let cardElements = cards.length ? cards : 
+    let cardElements = cards.length ? 
+    <div className="contentWrapper">
+
+        {cards}
+
+    </div>
+    : 
     (
         <div className="emptyPage">
             <Info
@@ -30,11 +36,7 @@ function Favorite({cards = [], searchValue, setSearchValue}){
                 </span>
             </div>
 
-            <div className="contentWrapper">
-
-                {cardElements}
-
-            </div>
+            {cardElements}
 
         </main>
     )

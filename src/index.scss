@@ -5,6 +5,8 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 
 	background: #E7F6FF;
+
+	min-width: 382px;
 }
 
 *{
@@ -34,55 +36,50 @@ main{
 
 	max-width: 960px;
 	margin: 0 auto;
-
 	
+}
 
-	.contentHeader{
+.contentHeader{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 40px;
+
+	h2{
+		margin: 0;
+		font-size: 32px;
+	}
+
+	span{
+
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 40px;
 
-		h2{
-			margin: 0;
-			font-size: 32px;
+		padding: 15px;
+
+		border: 1px solid #F3F3F3;
+		border-radius: 10px;
+
+		img{
+			margin-right: 12px;
 		}
 
-		span{
+		input{
+			border:none;
+			color: #C4C4C4;
 
-			display: flex;
-			align-items: center;
-
-			padding: 15px;
-
-			border: 1px solid #F3F3F3;
-			border-radius: 10px;
-
-			img{
-				margin-right: 12px;
-			}
-	
-			input{
-				border:none;
-				color: #C4C4C4;
-
-				&:focus{
-					outline:none;
-					color:black;
-				}
+			&:focus{
+				outline:none;
+				color:black;
 			}
 		}
-
 	}
 
-	.contentWrapper{
-		
-		display: flex;
-		flex-wrap: wrap;
+}
 
-	}
-
-	
+.contentWrapper{	
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
 }
 
 .emptyPage{
@@ -164,5 +161,51 @@ main{
 
 	100%{
 		opacity: 1;
+	}
+}
+
+@media screen and (max-width: 1080px) {
+	.contentHeader{
+		margin: 40px;
+	}
+}
+
+@media screen and (max-width: 1000px) {
+	.contentWrapper{
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+@media screen and (max-width: 700px) {
+	.contentWrapper{
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media screen and (max-width: 600px) {
+
+	.contentHeader{
+		flex-direction: column;
+		margin:0;
+		margin-bottom: 20px;
+
+		h2{
+			margin-bottom: 20px;
+		}
+
+		span{
+			width: 80%;
+			min-width: 230px;
+
+			input{
+				width: 100%;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.contentWrapper{
+		grid-template-columns: repeat(1, 1fr);
 	}
 }

@@ -75,7 +75,7 @@ function Card(props) {
                 onClick={handleFavorite}
             />}
 
-            <img width={133} height={112} src={"/img/" + props.img} alt="sneakers" />
+            <img width={133} height={112} src={"/img/" + props.img} alt="sneakers" className={styles.sneakers}/>
 
             <p>{props.title}</p>
 

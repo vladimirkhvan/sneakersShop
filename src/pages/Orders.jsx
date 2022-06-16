@@ -23,13 +23,18 @@ function Orders(){
         
     }, [])
 
-    const cards = orders.length ? orders.map(
-        (obj, index) => 
-        <Card
-            key={index}
-            {...obj}
-        />
-    ) : (
+    const cards = orders.length ? 
+    <div className="contentWrapper">
+
+        {orders.map(
+                (obj, index) => 
+                <Card
+                    key={index}
+                    {...obj}
+                />
+        )}
+
+    </div> : (
         <div className="emptyPage">
             <Info
                 title= "У вас нет заказов"
@@ -50,11 +55,9 @@ function Orders(){
             </div>
 
 
-            <div className="contentWrapper">
 
-                {cards} 
+            {cards} 
 
-            </div>
 
         </main>
     )

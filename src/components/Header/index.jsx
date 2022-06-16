@@ -8,6 +8,8 @@ function Header(props) {
 
     const totalPrice = props.cartItems.reduce((sum, cur) => sum + cur.price, 0);
 
+    
+
     return (
         <header className={styles.header}>
             <Link to="/">

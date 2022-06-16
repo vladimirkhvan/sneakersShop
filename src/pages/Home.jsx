@@ -2,8 +2,6 @@ export default Home
 
 function Home({cards, searchValue, setSearchValue}) {
 
-
-    
     return (
         <main>
 
