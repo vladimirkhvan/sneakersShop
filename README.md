@@ -5,6 +5,7 @@ The sneakers shop with several features such as <br/>
 1. Work with cart (adding / deleting items)<br/>
 2. Save sneakers to favorite <br/>
 3. Make an order 
+4. Search by sneakers name
 
 ## Tech details.<br/>
 All the cards are rendered dynamically. <br/>
