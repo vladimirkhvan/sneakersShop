@@ -19,6 +19,7 @@ There are 4 tables in Database.<br/>They are sneakers, cart, favorite, and order
   <li>React router</li>
   <li>React skeleton</li>
   <li>React hooks</li>
+  <li>Axios</li>
   <li>Sass</li>
   <li>Mock API</li>
   <li>Figma</li>
