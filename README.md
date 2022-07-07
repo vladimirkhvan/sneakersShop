@@ -10,7 +10,7 @@ The sneakers shop with several features such as <br/>
 ## Tech details.<br/>
 All the cards are rendered dynamically. <br/>
 Backend was imitated using mockAPI.io. <br/>
-There are 4 tables in Database.<br/>They are sneakers, cart, favorite, and orders. <br/>
+There are four tables in Database.<br/>They are sneakers, cart, favorite, and orders. <br/>
 
 ### Tech used. 
 
